@@ -6,14 +6,17 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "types": [
       "webpack-env",
-      "jest"
+      "webpack",
+      "jest",
+      "@types/testing-library__jest-dom",
+      "node"
     ],
     "paths": {
       "@/*": [
@@ -30,9 +33,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules"
