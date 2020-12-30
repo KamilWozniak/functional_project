@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is a test page</h1>
+    <h1>This is a test2 page</h1>
     <c-hello-world :msg="testMsg"
                    test="yyyy"/>
 
