@@ -9,15 +9,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "lodash-es": "^4.17.20",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
+    "@types/testing-library__jest-dom": "^5.9.5",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/parser": "^4.11.1",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
@@ -30,7 +33,6 @@
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^2.0.0-0",
     "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0-0",
     "lint-staged": "^9.5.0",
     "node-sass": "^4.12.0",
@@ -43,8 +45,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
+      "vue-cli-service lint"
     ]
   }
 }
