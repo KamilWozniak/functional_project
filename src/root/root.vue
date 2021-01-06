@@ -1,8 +1,29 @@
 <template>
   <div class="application">
+    <c-application-header :is-header-visible="isHeaderVisible" />
     <router-view />
   </div>
 </template>
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
+import { useStore }                  from 'vuex';
+import cApplicationHeader            from '@/components/application-header.component.vue';
+
+export default defineComponent({
+  name: 'root',
+  components: {
+    cApplicationHeader,
+  },
+  setup() {
+    const { state } = useStore();
+    const isHeaderVisible: boolean = computed(() => state.isHeaderVisible);
+
+    return {
+      isHeaderVisible,
+    };
+  },
+});
+</script>
 
 <style lang="scss">
 @import '~@/styles/global.scss';
