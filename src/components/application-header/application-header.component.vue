@@ -1,6 +1,6 @@
 <template>
-  <div class="c-application-header"
-        :class="{'c-application-header--hidden': !isHeaderVisible}">
+  <div :class="{'c-application-header--hidden': !isHeaderVisible}"
+       class="c-application-header">
 
   </div>
 </template>
@@ -23,9 +23,14 @@ export default defineComponent({
        lang="scss">
 
 .c-application-header {
-  width: 100%;
-  height: 5rem;
-  background-color: red;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--application-header-height);
+  height: var(--application-header-height);
+  box-shadow: 0 -.1rem .5rem var(--grey-800);
+  background-color: var(--facebook-blue);
 
   &--hidden {
     height: 0;

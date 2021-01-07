@@ -5,9 +5,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useStore }                  from 'vuex';
-import cApplicationHeader            from '@/components/application-header.component.vue';
+import { defineComponent, computed, ComputedRef } from 'vue';
+import { useStore }                               from 'vuex';
+import cApplicationHeader                         from '@/components/application-header/application-header.component.vue';
 
 export default defineComponent({
   name: 'root',
@@ -16,7 +16,7 @@ export default defineComponent({
   },
   setup() {
     const { state } = useStore();
-    const isHeaderVisible: boolean = computed(() => state.isHeaderVisible);
+    const isHeaderVisible: ComputedRef<boolean> = computed(() => state.isHeaderVisible);
 
     return {
       isHeaderVisible,
