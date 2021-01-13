@@ -42,7 +42,6 @@ module.exports = {
     ],
     'no-shadow': 'off',
     '@typescript-eslint/no-empty-function': [ 'error', { 'allow': [ 'arrowFunctions' ] } ],
-    // "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars-experimental": "warn",
     '@typescript-eslint/no-explicit-any': 'off',

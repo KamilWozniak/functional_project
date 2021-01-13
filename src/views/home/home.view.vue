@@ -1,11 +1,15 @@
 <template>
   <c-main-content>
     <div class="vHome">
-      <p> Home </p>
-      <el-button @click="toggleHeader">
-        ToggleHeader
-      </el-button>
+<!--      <p> Home </p>-->
+<!--      <el-button @click="toggleHeader">-->
+<!--        ToggleHeader-->
+<!--      </el-button>-->
+<!--      <router-link to="/test">-->
+<!--        Go-->
+<!--      </router-link>-->
       <c-post :key="id"
+              :post="post"
               v-for="(post, id) in wallPosts" />
     </div>
   </c-main-content>
@@ -13,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted }             from 'vue';
-import elButton                                   from 'element-plus/lib/el-button';
+// import elButton                                   from 'element-plus/lib/el-button';
 import { InitialNumberOfPosts, MaxNumberOfPosts } from '@/helpers/vairables';
 import { useApplicationHeader }                   from '@/hooks/application-header/useApplicationHeader.hook';
 import { useWallPosts }                           from '@/hooks/wall-posts/useWallPosts.hook';
@@ -23,17 +27,19 @@ import cPost                                      from '@/components/post/post.c
 export default defineComponent({
   name: 'vHome',
   components: {
-    elButton,
+    // elButton,
     cMainContent,
     cPost,
   },
   setup() {
     const { toggleHeader } = useApplicationHeader();
-    const { preparePostsToDisplayOnWall, createPostsOrder, wallPosts } = useWallPosts();
+    const { getInitialWallPosts, createPostsOrder, wallPosts } = useWallPosts();
 
     onMounted(async () => {
-      createPostsOrder(MaxNumberOfPosts);
-      await preparePostsToDisplayOnWall(InitialNumberOfPosts);
+      if (!wallPosts.value.length) {
+        createPostsOrder(MaxNumberOfPosts);
+        await getInitialWallPosts(InitialNumberOfPosts);
+      }
     });
 
     return {

@@ -14,23 +14,20 @@ import {
   cCatch,
 }                                             from '@/helpers/promise-helpers';
 import { extractDataFromAxiosResponsesArray } from '@/helpers/axios-helpers';
-import { property }                           from 'lodash-es';
 
 export const actions: ActionTree<ApplicationState, RootState> = {
   createPostsOrder({ commit }, numberOfPosts: number): void {
     commit('setWallPostsOrder', createArrayWithUniqueRandomNumbersStartedFromOne(numberOfPosts));
   },
-  async preparePostsToDisplayOnWall({ state, commit }, numberOfPosts: number): Promise<void> {
+  async getInitialWallPosts({ state, commit }, numberOfPosts: number): Promise<void> {
     await flow([
-      () => state,
-      property('wallPostsOrder'),
       cGetFirstItemsOfArray(numberOfPosts),
       cMap(cGetSinglePostById),
       promiseAll,
       cThen(extractDataFromAxiosResponsesArray),
       cThen(cCommit(commit, 'setWallPosts')),
       cThen(() => commit('setNumberOfLoadedPosts', numberOfPosts)),
-      cCatch((e: Error) => console.log(e)),
-    ])(numberOfPosts);
+      cCatch((e: Error) => console.error(e)),
+    ])(state.wallPostsOrder);
   },
 };
