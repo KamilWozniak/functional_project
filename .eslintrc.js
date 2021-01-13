@@ -24,7 +24,7 @@ module.exports = {
     'object-curly-spacing': [ 2, 'always' ],
     'no-multi-spaces': [ 'error', { exceptions: { 'ImportDeclaration': true } } ],
     'no-duplicate-imports': [ 'error', { 'includeExports': true } ],
-    'object-curly-newline': [ 'error', { 'ImportDeclaration': 'never' } ],
+    'object-curly-newline': [ 'error', {  "ImportDeclaration": { "minProperties": 4, "consistent": false, "multiline": true } } ],
     'import/prefer-default-export': 'off',
     'prefer-promise-reject-errors': 'off',
     'no-trailing-spaces': 'off',
@@ -42,7 +42,8 @@ module.exports = {
     ],
     'no-shadow': 'off',
     '@typescript-eslint/no-empty-function': [ 'error', { 'allow': [ 'arrowFunctions' ] } ],
-    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars-experimental": "warn",
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     'vue/max-attributes-per-line': [ 'error', {
