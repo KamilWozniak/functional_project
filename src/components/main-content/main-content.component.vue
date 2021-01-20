@@ -31,6 +31,7 @@ export default defineComponent({
   padding: var(--view-padding-vertical) var(--view-padding-horizontal);
   margin-top: var(--application-header-height);
   min-height: calc(100vh - var(--application-header-height));
+  background-color: var(--facebook-background-grey);
 
   &--hidden-header {
     min-height: 100vh;

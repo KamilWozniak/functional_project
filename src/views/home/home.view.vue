@@ -1,33 +1,27 @@
 <template>
   <c-main-content>
-    <div class="vHome">
-<!--      <p> Home </p>-->
-<!--      <el-button @click="toggleHeader">-->
-<!--        ToggleHeader-->
-<!--      </el-button>-->
-<!--      <router-link to="/test">-->
-<!--        Go-->
-<!--      </router-link>-->
+    <div class="v-home">
+      <div class="v-home__posts-container">
+
       <c-post :key="id"
               :post="post"
               v-for="(post, id) in wallPosts" />
+      </div>
     </div>
   </c-main-content>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted }             from 'vue';
-// import elButton                                   from 'element-plus/lib/el-button';
 import { InitialNumberOfPosts, MaxNumberOfPosts } from '@/helpers/vairables';
 import { useApplicationHeader }                   from '@/hooks/application-header/useApplicationHeader.hook';
-import { useWallPosts }                           from '@/hooks/wall-posts/useWallPosts.hook';
-import cMainContent                               from '@/components/view-wrapper/main-content.component.vue';
-import cPost                                      from '@/components/post/post.component.vue';
+import { useWallPosts } from '@/hooks/wall-posts/useWallPosts.hook';
+import cMainContent     from '@/components/main-content/main-content.component.vue';
+import cPost            from '@/components/post/post.component.vue';
 
 export default defineComponent({
   name: 'vHome',
   components: {
-    // elButton,
     cMainContent,
     cPost,
   },
@@ -55,9 +49,16 @@ export default defineComponent({
 
 @import '~element-plus/lib/theme-chalk/el-button.css';
 
-.vHome {
+.v-home {
   min-height: 10rem;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+
+  &__posts-container {
+    display: flex;
+    flex-direction: column;
+  }
+
 }
 
 </style>
