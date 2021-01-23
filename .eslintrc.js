@@ -46,6 +46,8 @@ module.exports = {
     "@typescript-eslint/no-unused-vars-experimental": "warn",
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off',
     'vue/max-attributes-per-line': [ 'error', {
       'singleline': 1,
       'multiline': {

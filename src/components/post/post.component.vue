@@ -1,9 +1,9 @@
 <template>
   <div class="c-post">
-    <c-user-details>
+    <c-user-details :user="user">
       yesterday at 8am
     </c-user-details>
-    <p class="c-post__content">{{post.body}}</p>
+    <p class="c-post__content">{{ post.body }}</p>
     <div class="c-post__action-buttons">
       <span>Like</span>
       <span>Comment</span>
@@ -13,9 +13,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import cUserDetails        from '@/components/user-details/user-details.component.vue';
-import { Post }            from '@/root/root.types';
+import {
+  computed,
+  ComputedRef,
+  defineComponent,
+  PropType,
+}                     from 'vue';
+import cUserDetails   from '@/components/user-details/user-details.component.vue';
+import { Post, User } from '@/root/root.types';
+import { useUsers }   from '@/hooks/users/useUsers.hook';
 
 export default defineComponent({
   name: 'cPost',
@@ -28,8 +34,13 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    return {};
+  setup(props) {
+    const { getUserById } = useUsers();
+    const user: ComputedRef<User | undefined> = computed(() => getUserById(props.post.userId));
+
+    return {
+      user,
+    };
   },
 });
 </script>

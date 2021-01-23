@@ -1,22 +1,33 @@
 import { useStore }              from 'vuex';
 import { computed, ComputedRef } from 'vue';
 import { Post }                  from '@/root/root.types';
+import { curry }                 from 'lodash-es';
+import { CurriedFunction1 }      from '@/types';
 
 interface UseWallPosts {
   wallPosts: ComputedRef<Post[]>;
-  createPostsOrder: (numberOfPosts: number) => void;
-  getInitialWallPosts: (numberOfPosts: number) => Promise<void>;
+  cCreatePostsOrder: CurriedFunction1<number, void>;
+  cGetInitialWallPosts: CurriedFunction1<number, Promise<void>>;
 }
 
 export const useWallPosts = (): UseWallPosts => {
   const { dispatch, state } = useStore();
+
+  const wallPosts: ComputedRef<Post[]> = computed(() => state.wallPosts);
+
+  const createPostsOrder = (numberOfPosts: number): void => {
+    dispatch('createPostsOrder', numberOfPosts);
+  };
+  const cCreatePostsOrder: CurriedFunction1<number, void> = curry(createPostsOrder);
+
+  const getInitialWallPosts = async (numberOfPosts: number): Promise<void> => {
+    await dispatch('getInitialWallPosts', numberOfPosts);
+  };
+  const cGetInitialWallPosts: CurriedFunction1<number, Promise<void>> = curry(getInitialWallPosts);
+
   return {
-    wallPosts: computed(() => state.wallPosts),
-    async createPostsOrder(numberOfPosts: number) {
-      await dispatch('createPostsOrder', numberOfPosts);
-    },
-    async getInitialWallPosts(numberOfPosts: number): Promise<void> {
-      await dispatch('getInitialWallPosts', numberOfPosts);
-    },
+    wallPosts,
+    cCreatePostsOrder,
+    cGetInitialWallPosts,
   };
 };

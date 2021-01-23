@@ -21,3 +21,4 @@ export interface CurriedFunction3<T1, T2, T3, R> {
 
 export type CurriedDispatch<PayloadType, ReturnType> = CurriedFunction3<Dispatch, string, PayloadType, ReturnType>;
 export type CurriedCommit<PayloadType> = CurriedFunction3<Commit, string, PayloadType, void>;
+export type ObjectWithStringKeys<T> = { [ key: string ]: T };

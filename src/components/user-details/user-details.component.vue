@@ -1,8 +1,14 @@
 <template>
-  <div class="c-user-details">
-    <div class="c-user-details__image"></div>
+  <div v-if="user"
+       class="c-user-details">
+
+    <div class="c-user-details__image"
+         :style="`background-image: url(${user.photoUrl})`"></div>
+
     <div class="c-user-details__description-wrapper">
-      <span class="c-user-details__description-wrapper__name">userName</span>
+      <span class="c-user-details__description-wrapper__name">
+        {{ user.name }}
+      </span>
       <div class="c-user-details__description-wrapper__additional-details">
         <slot />
       </div>
@@ -10,24 +16,36 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+import { User }                      from '@/root/root.types';
 
 export default defineComponent({
   name: 'cUserDetails',
+  props: {
+    user: {
+      type: Object as PropType<User>,
+      required: false,
+    },
+  },
 });
 </script>
 
 <style scoped
        lang="scss">
 
+$user-image-width: 5rem;
+$user-image-height: 5rem;
+
 .c-user-details {
   display: flex;
 
   &__image {
-    width: 5rem;
-    height: 5rem;
-    background-color: #606266;
+    width: $user-image-width;
+    height: $user-image-height;
+    background-color: var(--grey-500);
+    background-repeat: no-repeat;
+    background-size: $user-image-height $user-image-width;
     cursor: pointer;
   }
 

@@ -4,5 +4,6 @@ export const state: ApplicationState = {
   isHeaderVisible: true,
   wallPosts: [],
   wallPostsOrder: [],
+  users: [],
   numberOfLoadedPosts: 0,
 };

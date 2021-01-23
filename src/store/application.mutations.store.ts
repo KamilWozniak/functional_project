@@ -1,5 +1,5 @@
-import { MutationTree }           from 'vuex';
-import { ApplicationState, Post } from '@/root/root.types';
+import { MutationTree }                 from 'vuex';
+import { ApplicationState, Post, User } from '@/root/root.types';
 
 export const mutations: MutationTree<ApplicationState> = {
   setIsHeaderVisible(state, value: boolean) {
@@ -13,5 +13,8 @@ export const mutations: MutationTree<ApplicationState> = {
   },
   setNumberOfLoadedPosts(state, numberOfPosts: number): void {
     state.numberOfLoadedPosts += numberOfPosts;
+  },
+  setUsers(state, users: User[]): void {
+    state.users = users;
   },
 };

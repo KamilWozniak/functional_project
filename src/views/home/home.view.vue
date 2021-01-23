@@ -3,9 +3,9 @@
     <div class="v-home">
       <div class="v-home__posts-container">
 
-      <c-post :key="id"
-              :post="post"
-              v-for="(post, id) in wallPosts" />
+        <c-post :key="id"
+                :post="post"
+                v-for="(post, id) in wallPosts" />
       </div>
     </div>
   </c-main-content>
@@ -15,9 +15,12 @@
 import { defineComponent, onMounted }             from 'vue';
 import { InitialNumberOfPosts, MaxNumberOfPosts } from '@/helpers/vairables';
 import { useApplicationHeader }                   from '@/hooks/application-header/useApplicationHeader.hook';
-import { useWallPosts } from '@/hooks/wall-posts/useWallPosts.hook';
-import cMainContent     from '@/components/main-content/main-content.component.vue';
-import cPost            from '@/components/post/post.component.vue';
+import { useWallPosts }                           from '@/hooks/wall-posts/useWallPosts.hook';
+import cMainContent                               from '@/components/main-content/main-content.component.vue';
+import cPost                                      from '@/components/post/post.component.vue';
+import { useUsers }                               from '@/hooks/users/useUsers.hook';
+import { IO }                                     from '@/helpers/monads/IO.monad';
+import { cThen }                                  from '@/helpers/promise-helpers';
 
 export default defineComponent({
   name: 'vHome',
@@ -27,12 +30,17 @@ export default defineComponent({
   },
   setup() {
     const { toggleHeader } = useApplicationHeader();
-    const { getInitialWallPosts, createPostsOrder, wallPosts } = useWallPosts();
+    const { wallPosts, cCreatePostsOrder, cGetInitialWallPosts } = useWallPosts();
+    const { getInitialUsers } = useUsers();
 
-    onMounted(async () => {
+    onMounted(() => {
       if (!wallPosts.value.length) {
-        createPostsOrder(MaxNumberOfPosts);
-        await getInitialWallPosts(InitialNumberOfPosts);
+        IO.of(MaxNumberOfPosts)
+          .map(cCreatePostsOrder)
+          .injectValue(InitialNumberOfPosts)
+          .map(cGetInitialWallPosts)
+          .map(cThen(() => getInitialUsers()))
+          .run();
       }
     });
 
