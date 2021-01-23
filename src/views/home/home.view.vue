@@ -39,7 +39,7 @@ export default defineComponent({
           .map(cCreatePostsOrder)
           .injectValue(InitialNumberOfPosts)
           .map(cGetInitialWallPosts)
-          .map(cThen(() => getInitialUsers()))
+          .map(cThen(getInitialUsers))
           .run();
       }
     });
