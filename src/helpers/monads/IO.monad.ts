@@ -19,8 +19,10 @@ export class IO {
   }
 
   injectValue(value: any) {
-    // return new IO(() => value);
-    return new IO(() => this.effect(value));
+    return new IO(() => {
+      this.effect();
+      return value;
+    });
   }
 
   map(fn: Function) {

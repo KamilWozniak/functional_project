@@ -33,9 +33,9 @@ export default defineComponent({
     const { wallPosts, cCreatePostsOrder, cGetInitialWallPosts } = useWallPosts();
     const { getInitialUsers } = useUsers();
 
-    onMounted(() => {
+    onMounted(async () => {
       if (!wallPosts.value.length) {
-        IO.of(MaxNumberOfPosts)
+        await IO.of(MaxNumberOfPosts)
           .map(cCreatePostsOrder)
           .injectValue(InitialNumberOfPosts)
           .map(cGetInitialWallPosts)
