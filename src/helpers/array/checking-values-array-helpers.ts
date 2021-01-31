@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars-experimental */
-import { prop } from '@/helpers/object-helpers';
-import curry    from 'lodash-es/curry';
+import { propOrValue } from '@/helpers/object-helpers';
+import curry           from 'lodash-es/curry';
 
 interface CheckIfValueInArrayAttributes<T> {
   array: T[];
@@ -15,8 +15,8 @@ interface CCheckIfValueInArrayAttributes<T> {
   valueOptionalPath?: string;
 }
 
-export const checkIfValueInArray = <T>({ array, arrayItemOptionalPath, valueOptionalPath, value }: CheckIfValueInArrayAttributes<T>) => array
-  .some((arrayItem: T) => prop(arrayItem, arrayItemOptionalPath) === prop(value, valueOptionalPath));
+const checkIfValueInArray = <T>({ array, arrayItemOptionalPath, valueOptionalPath, value }: CheckIfValueInArrayAttributes<T>) => array
+  .some((arrayItem: T) => propOrValue(arrayItem, arrayItemOptionalPath) === propOrValue(value, valueOptionalPath));
 
 export const cCheckIfSameValueInOtherArray = curry(
   <T>({ array, arrayItemOptionalPath, valueOptionalPath }: CCheckIfValueInArrayAttributes<T>, value: any) => checkIfValueInArray({ array, arrayItemOptionalPath, valueOptionalPath, value }),

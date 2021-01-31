@@ -1,6 +1,10 @@
 import { ActionTree }                                       from 'vuex';
 import flow                                                 from 'lodash-es/flow';
-import { ApplicationState, RootState, UserServerResponse }  from '@/root/root.types';
+import {
+  ApplicationState,
+  RootState,
+  UserServerResponse,
+}                                                           from '@/root/root.types';
 import { cCommit, cDispatch }                               from '@/helpers/store-helpers';
 import { cGetSinglePostById, cGetSingleUserById }           from '@/views/home/home.service';
 import {
@@ -23,9 +27,9 @@ import {
   cSort,
 }                                                           from '@/helpers/array/basic-array-helpers';
 import { cCheckIfSameValueInOtherArray }                    from '@/helpers/array/checking-values-array-helpers';
-import { userPhotoBaseURL }                                 from '@/helpers/vairables';
-import { createNewExtendedObject }                          from '@/helpers/object-helpers';
 import { sortNumbersArrayAscending }                        from '@/helpers/array/order-array-helpers';
+import { cInjectGenderToUser, cInjectPhotoToUser }          from '@/helpers/user/user-helpers';
+import { cGetGenderPromise }                                from '@/helpers/genderize/genderize-helpers';
 
 export const actions: ActionTree<ApplicationState, RootState> = {
   createPostsOrder({ commit }, numberOfPosts: number): void {
@@ -57,8 +61,13 @@ export const actions: ActionTree<ApplicationState, RootState> = {
   },
   setUsersFromServer({ commit }, users: UserServerResponse[]) {
     flow([
-      cMap((user: UserServerResponse) => createNewExtendedObject('photoUrl', `${userPhotoBaseURL}${user.id}.jpg`, user)),
-      cCommit(commit, 'setUsers'),
+      cMap(cGetGenderPromise),
+      promiseAll,
+      cThen(extractDataFromAxiosResponsesArray),
+      cThen(cMap(cInjectGenderToUser(users))),
+      cThen(cMap(cInjectPhotoToUser)),
+      cThen(cCommit(commit, 'setUsers')),
+      cCatch(cHandleBasicError),
     ])(users);
   },
 };

@@ -34,8 +34,21 @@ export interface UserServerResponse {
   company: Company;
 }
 
+export interface GenderizeAPIResponse {
+  count: number;
+  gender: Gender | null;
+  name: string;
+  probability: number;
+}
+
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female'
+}
+
 export interface User extends UserServerResponse {
   photoUrl: string;
+  gender: Gender | null;
 }
 
 export interface ApplicationState {

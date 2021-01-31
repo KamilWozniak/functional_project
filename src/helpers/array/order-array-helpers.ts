@@ -9,4 +9,4 @@ export const shuffleArray = <T>(array: T[]): T[] => {
   return arrayCopy;
 };
 
-export const sortNumbersArrayAscending = (a: number, b: number) => (a > b ? 1 : -1);
+export const sortNumbersArrayAscending = (a: number, b: number): number => (a > b ? 1 : -1);

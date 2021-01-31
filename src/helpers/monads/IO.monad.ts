@@ -37,29 +37,3 @@ export class IO {
     return this.effect();
   }
 }
-
-// type Effect<T> = () => T
-//
-// export class IO<A> {
-//   private effect: Effect<A>;
-//
-//   constructor(effect: Effect<A>) {
-//     this.effect = effect;
-//   }
-//
-//   static of<T>(val: T) {
-//     return new IO(() => val);
-//   }
-//
-//   map<B>(f: (val: A) => B): IO<B> {
-//     return new IO(() => f(this.effect()));
-//   }
-//
-//   flatMap<B>(f: any): IO<B> {
-//     return new IO(() => f(this.effect()).effect());
-//   }
-//
-//   eval() {
-//     return this.effect();
-//   }
-// }
