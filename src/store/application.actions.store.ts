@@ -42,7 +42,7 @@ export const actions: ActionTree<ApplicationState, RootState> = {
       promiseAll,
       cThen(extractDataFromAxiosResponsesArray),
       cThen(cCommit(commit, 'setWallPosts')),
-      cThen(() => commit('setNumberOfLoadedPosts', numberOfPosts)),
+      cThen(cCommit(commit, 'setNumberOfLoadedPosts', numberOfPosts)),
       cCatch(cHandleBasicError),
     ])(state.wallPostsOrder);
   },
