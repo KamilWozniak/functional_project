@@ -19,17 +19,18 @@ import {
   cGetFirstItemsOfArray,
   getArrayOfObjectPropsReducerFunction,
   getUniqueArrayValues,
-}                                                           from '@/helpers/array/getting-values-array-helpers';
+}                                                  from '@/helpers/array/getting-values-array-helpers';
 import {
   cFilter,
   cMap,
   cReduce,
   cSort,
-}                                                           from '@/helpers/array/basic-array-helpers';
-import { cCheckIfSameValueInOtherArray }                    from '@/helpers/array/checking-values-array-helpers';
-import { sortNumbersArrayAscending }                        from '@/helpers/array/order-array-helpers';
-import { cInjectGenderToUser, cInjectPhotoToUser }          from '@/helpers/user/user-helpers';
-import { cGetGenderPromise }                                from '@/helpers/genderize/genderize-helpers';
+}                                                  from '@/helpers/array/basic-array-helpers';
+import { cCheckIfSameValueInOtherArray }           from '@/helpers/array/checking-values-array-helpers';
+import { sortNumbersArrayAscending }               from '@/helpers/array/order-array-helpers';
+import { cInjectGenderToUser, cInjectPhotoToUser } from '@/helpers/user/user-helpers';
+import { cGetGenderPromise }                       from '@/helpers/genderize/genderize-helpers';
+import axios                                       from 'axios';
 
 export const actions: ActionTree<ApplicationState, RootState> = {
   createPostsOrder({ commit }, numberOfPosts: number): void {
@@ -59,8 +60,8 @@ export const actions: ActionTree<ApplicationState, RootState> = {
       cCatch(cHandleBasicError),
     ])(state.wallPosts);
   },
-  setUsersFromServer({ commit }, users: UserServerResponse[]) {
-    flow([
+  async setUsersFromServer({ commit }, users: UserServerResponse[]) {
+    await flow([
       cMap(cGetGenderPromise),
       promiseAll,
       cThen(extractDataFromAxiosResponsesArray),
