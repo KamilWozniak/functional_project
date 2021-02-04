@@ -5,3 +5,4 @@ export const cReduce = curry(<T>(initialValue: T, reducerFunction: (acc: T, curr
 export const cMap = curry(<T>(mapperFn: (value: T, index: number) => any, array: T[]) => array.map(mapperFn));
 export const cFilter = curry(<T>(filterFn: (item: T) => boolean, array: T[]) => array.filter(filterFn));
 export const cSort = curry(<T>(sortingFn: (a: T, b: T) => number, array: T[]) => array.sort(sortingFn));
+export const cConcat = curry(<T>(firstArray: T[], secondArray: T[]) => firstArray.concat(secondArray));

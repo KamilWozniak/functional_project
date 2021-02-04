@@ -8,7 +8,7 @@
       <span>Like</span>
       <span>Comment</span>
     </div>
-    <p class="c-post__comment-section">commentSection</p>
+    <c-comment-section :comments="post.postComments" />
   </div>
 </template>
 
@@ -20,6 +20,7 @@ import {
   PropType,
 }                     from 'vue';
 import cUserDetails   from '@/components/user-details/user-details.component.vue';
+import cCommentSection from '@/components/comment-section/comment-section.component.vue';
 import { Post, User } from '@/root/root.types';
 import { useUsers }   from '@/hooks/users/useUsers.hook';
 
@@ -27,6 +28,7 @@ export default defineComponent({
   name: 'cPost',
   components: {
     cUserDetails,
+    cCommentSection,
   },
   props: {
     post: {

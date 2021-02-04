@@ -41,6 +41,8 @@ $user-image-height: 5rem;
   display: flex;
 
   &__image {
+    min-width: $user-image-width;
+    min-height: $user-image-height;
     width: $user-image-width;
     height: $user-image-height;
     background-color: var(--grey-500);

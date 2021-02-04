@@ -2,7 +2,10 @@ import { ActionTree }                                       from 'vuex';
 import flow                                                 from 'lodash-es/flow';
 import {
   ApplicationState,
+  Post,
+  PostComment,
   RootState,
+  User,
   UserServerResponse,
 }                                                           from '@/root/root.types';
 import { cCommit, cDispatch }                               from '@/helpers/store-helpers';
@@ -16,10 +19,10 @@ import { cNegate }                                          from '@/helpers/gene
 import { createArrayWithUniqueRandomNumbersStartedFromOne } from '@/helpers/array/creating-array-helpers';
 import {
   cGetFirstItemsOfArray,
-  getArrayOfObjectPropsReducerFunction,
   getUniqueArrayValues,
 }                                                           from '@/helpers/array/getting-values-array-helpers';
 import {
+  cConcat,
   cFilter,
   cMap,
   cReduce,
@@ -44,26 +47,41 @@ export const actions: ActionTree<ApplicationState, RootState> = {
       cCatch(handleBasicError),
     ])(state.wallPostsOrder);
   },
-  async getInitialUsers({ state, dispatch }): Promise<void> {
+  async getUsers({ state, dispatch }, ids: number[]): Promise<void> {
     await flow([
-      cReduce([], getArrayOfObjectPropsReducerFunction('userId')),
       getUniqueArrayValues,
-      cFilter(cNegate(cCheckIfSameValueInOtherArray({ array: state.users, arrayItemOptionalPath: 'id' }))),
+      cFilter(cNegate(cCheckIfSameValueInOtherArray({ array: state.users, arrayItemOptionalPath: 'id' }))), // first check for existing user
       cSort(sortNumbersArrayAscending),
       getUsers,
       cThen(extractDataFromSingleAxiosResponse),
       cThen(cDispatch(dispatch, 'setUsersFromServer')),
       cCatch(handleBasicError),
+    ])(ids);
+  },
+  async getInitialUsers({ state, dispatch }): Promise<void> {
+    await flow([
+      cReduce([], (acc: number[], curr: Post) => {
+        const ids: number[] = [ curr.userId, ...curr.postComments.map((comment: PostComment) => comment.userId) ];
+        return [ ...acc, ...ids ];
+      }), // todo: write this in more functional way
+      cDispatch(dispatch, 'getUsers'),
     ])(state.wallPosts);
   },
-  async setUsersFromServer({ commit }, users: UserServerResponse[]) {
+  addUsersToUsersList({ state, commit }, users: User[]) {
+    flow([
+      cFilter(cNegate(cCheckIfSameValueInOtherArray({ array: state.users, arrayItemOptionalPath: 'id', valueOptionalPath: 'id' }))), // second check for existing user
+      cConcat(state.users),
+      cCommit(commit, 'setUsers'),
+    ])(users);
+  },
+  async setUsersFromServer({ dispatch }, users: UserServerResponse[]) {
     await flow([
       cMap(getUserNameForGenderPrediction),
       getGenders,
       cThen(extractDataFromSingleAxiosResponse),
       cThen(cMap(cInjectGenderToUser(users))),
       cThen(cMap(injectPhotoToUser)),
-      cThen(cCommit(commit, 'setUsers')),
+      cThen(cDispatch(dispatch, 'addUsersToUsersList')),
       cCatch(handleBasicError),
     ])(users);
   },
