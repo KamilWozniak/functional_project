@@ -1,35 +1,34 @@
-import { ActionTree }                                                             from 'vuex';
-import flow                                                                       from 'lodash-es/flow';
+import { ActionTree }                                       from 'vuex';
+import flow                                                 from 'lodash-es/flow';
 import {
   ApplicationState,
   RootState,
   UserServerResponse,
-}                                                                                 from '@/root/root.types';
-import { cCommit, cDispatch }                                                     from '@/helpers/store-helpers';
-import { getUsers, getPosts }                                                     from '@/views/home/home.service';
+}                                                           from '@/root/root.types';
+import { cCommit, cDispatch }                               from '@/helpers/store-helpers';
+import { getUsers, getPosts, getGenders }                   from '@/views/home/home.service';
 import {
-  promiseAll,
   cThen,
   cCatch, handleBasicError,
-}                                                                                 from '@/helpers/promise-helpers';
-import { extractDataFromAxiosResponsesArray, extractDataFromSingleAxiosResponse } from '@/helpers/axios-helpers';
-import { cNegate }                                                                from '@/helpers/general-helpers';
-import { createArrayWithUniqueRandomNumbersStartedFromOne }                       from '@/helpers/array/creating-array-helpers';
+}                                                           from '@/helpers/promise-helpers';
+import { extractDataFromSingleAxiosResponse }               from '@/helpers/axios-helpers';
+import { cNegate }                                          from '@/helpers/general-helpers';
+import { createArrayWithUniqueRandomNumbersStartedFromOne } from '@/helpers/array/creating-array-helpers';
 import {
   cGetFirstItemsOfArray,
   getArrayOfObjectPropsReducerFunction,
   getUniqueArrayValues,
-}                                                                                 from '@/helpers/array/getting-values-array-helpers';
+}                                                           from '@/helpers/array/getting-values-array-helpers';
 import {
   cFilter,
   cMap,
   cReduce,
   cSort,
-}                                                                                 from '@/helpers/array/basic-array-helpers';
-import { cCheckIfSameValueInOtherArray }                                          from '@/helpers/array/checking-values-array-helpers';
-import { sortNumbersArrayAscending }                                              from '@/helpers/array/order-array-helpers';
-import { cInjectGenderToUser, injectPhotoToUser }                                 from '@/helpers/user/user-helpers';
-import { getGenderPromise }                                                       from '@/helpers/genderize/genderize-helpers';
+}                                                           from '@/helpers/array/basic-array-helpers';
+import { cCheckIfSameValueInOtherArray }                    from '@/helpers/array/checking-values-array-helpers';
+import { sortNumbersArrayAscending }                        from '@/helpers/array/order-array-helpers';
+import { cInjectGenderToUser, injectPhotoToUser }           from '@/helpers/user/user-helpers';
+import { getUserNameForGenderPrediction }                   from '@/helpers/genderize/genderize-helpers';
 
 export const actions: ActionTree<ApplicationState, RootState> = {
   createPostsOrder({ commit }, numberOfPosts: number): void {
@@ -59,9 +58,9 @@ export const actions: ActionTree<ApplicationState, RootState> = {
   },
   async setUsersFromServer({ commit }, users: UserServerResponse[]) {
     await flow([
-      cMap(getGenderPromise),
-      promiseAll,
-      cThen(extractDataFromAxiosResponsesArray),
+      cMap(getUserNameForGenderPrediction),
+      getGenders,
+      cThen(extractDataFromSingleAxiosResponse),
       cThen(cMap(cInjectGenderToUser(users))),
       cThen(cMap(injectPhotoToUser)),
       cThen(cCommit(commit, 'setUsers')),

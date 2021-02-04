@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosPromise } from 'axios';
 
-export const performGetRequestForGivenIds = (axiosInstance: AxiosInstance, ids: number[]): AxiosPromise => {
-  const query: string = ids.reduce((acc: string, curr: number) => `${acc}&id=${curr}`, '?');
+export const performGetRequestForGivenParam = (axiosInstance: AxiosInstance, param: string, array: any[]): AxiosPromise => {
+  const query: string = array.reduce((acc: string, curr: number) => `${acc}&${param}=${curr}`, '?');
   return axiosInstance.get(query);
 };
