@@ -29,7 +29,6 @@ export const getNameForGenderPrediction = (name: string): string => {
   }
   return potentialName;
 };
-export const cGetNameForGenderPrediction = curry(getNameForGenderPrediction);
 
 const injectGenderToUser = (users: UserServerResponse[], gender: GenderizeAPIResponse): UserServerResponse & { gender: Gender | null } | null => {
   const user: UserServerResponse | undefined = users.find((user: UserServerResponse) => getNameForGenderPrediction(user.name) === gender.name);
@@ -40,10 +39,9 @@ const injectGenderToUser = (users: UserServerResponse[], gender: GenderizeAPIRes
 };
 export const cInjectGenderToUser = curry(injectGenderToUser);
 
-const injectPhotoToUser = (user: UserServerResponse & { gender: Gender | null }) => {
+export const injectPhotoToUser = (user: UserServerResponse & { gender: Gender | null }) => {
   if (user.gender === Gender.MALE) {
     return createNewExtendedObject('photoUrl', `${menUserPhotoBaseURL}${user.id}.jpg`, user);
   }
   return createNewExtendedObject('photoUrl', `${womenUserPhotoBaseURL}${user.id}.jpg`, user);
 };
-export const cInjectPhotoToUser = curry(injectPhotoToUser);

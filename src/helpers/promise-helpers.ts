@@ -4,4 +4,4 @@ export const cThen = curry((fn: (...arg: any) => any, promise: Promise<any>) => 
 export const cCatch = curry((fn: (error: any) => any, promise: Promise<any>) => promise.catch(fn));
 export const promiseAll = (promisesArray: Promise<any>[]) => Promise.all(promisesArray);
 
-export const cHandleBasicError = curry((err: any) => console.error(err));
+export const handleBasicError = (err: any) => console.error(err);

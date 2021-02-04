@@ -1,14 +1,12 @@
-import { AxiosPromise }                from 'axios';
-import { curry, flow }                 from 'lodash-es';
-import { UserServerResponse }          from '@/root/root.types';
-import { cProp }                       from '@/helpers/object-helpers';
-import { cGetNameForGenderPrediction } from '@/helpers/user/user-helpers';
-import { cGetUserGenderByName }        from '@/views/home/home.service';
-import { CurriedFunction1 }            from '@/types';
+import { AxiosPromise }               from 'axios';
+import { flow }                       from 'lodash-es';
+import { UserServerResponse }         from '@/root/root.types';
+import { cProp }                      from '@/helpers/object-helpers';
+import { getNameForGenderPrediction } from '@/helpers/user/user-helpers';
+import { getUserGenderByName }        from '@/views/home/home.service';
 
-const getGenderPromise = (user: UserServerResponse): AxiosPromise => flow([
+export const getGenderPromise = (user: UserServerResponse): AxiosPromise => flow([
   cProp('name'),
-  cGetNameForGenderPrediction,
-  cGetUserGenderByName,
+  getNameForGenderPrediction,
+  getUserGenderByName,
 ])(user);
-export const cGetGenderPromise: CurriedFunction1<UserServerResponse, AxiosPromise> = curry(getGenderPromise);

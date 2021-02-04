@@ -7,7 +7,7 @@ export const propOrValue = (value: any, path = ''): any => {
   return value[ path ];
 };
 
-const prop = (path: string, value: any): any => property(path)(value);
+export const prop = (path: string, value: any): any => property(path)(value);
 export const cProp = curry(prop);
 
 export const createNewExtendedObject = <T, S>(key: string, value: T, objectToExtend: S): Record<string, S | T> => cloneDeep({ ...objectToExtend, [ key ]: value });
