@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 
 export const users: AxiosInstance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com/users',
+  baseURL: `${process.env.VUE_APP_SERVER_ADDRESS}/users`,
 });

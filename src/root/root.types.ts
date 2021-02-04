@@ -1,8 +1,17 @@
+export interface PostComment {
+  postId: number;
+  id: number;
+  name: string;
+  body: string;
+  userId: number;
+}
+
 export interface Post {
   userId: number;
   postId: number;
   title: string;
   body: string;
+  postComments: PostComment[];
 }
 
 export interface Location {
@@ -57,7 +66,8 @@ export interface ApplicationState {
   wallPostsOrder: number[];
   numberOfLoadedPosts: number;
   users: User[];
-  [k: string]: any;
+
+  [ k: string ]: any;
 }
 
 export interface RootState {

@@ -30,7 +30,6 @@ import { cCheckIfSameValueInOtherArray }           from '@/helpers/array/checkin
 import { sortNumbersArrayAscending }               from '@/helpers/array/order-array-helpers';
 import { cInjectGenderToUser, cInjectPhotoToUser } from '@/helpers/user/user-helpers';
 import { cGetGenderPromise }                       from '@/helpers/genderize/genderize-helpers';
-import axios                                       from 'axios';
 
 export const actions: ActionTree<ApplicationState, RootState> = {
   createPostsOrder({ commit }, numberOfPosts: number): void {
