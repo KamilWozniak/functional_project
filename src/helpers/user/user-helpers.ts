@@ -3,12 +3,18 @@ import {
   flow,
   toLower,
   trim,
-}                                                           from 'lodash-es';
-import { cSplit }                                           from '@/helpers/string-helpers';
-import { cGetFirstItemsOfArray }                            from '@/helpers/array/getting-values-array-helpers';
-import { Gender, GenderizeAPIResponse, UserServerResponse } from '@/root/root.types';
-import { createNewExtendedObject }                          from '@/helpers/object-helpers';
-import { menUserPhotoBaseURL, womenUserPhotoBaseURL }       from '@/helpers/vairables';
+}                                                     from 'lodash-es';
+import { cSplit }                                     from '@/helpers/string-helpers';
+import { cGetFirstItemsOfArray }                      from '@/helpers/array/getting-values-array-helpers';
+import {
+  Gender,
+  GenderizeAPIResponse,
+  Post,
+  PostComment,
+  UserServerResponse,
+}                                                     from '@/root/root.types';
+import { createNewExtendedObject }                    from '@/helpers/object-helpers';
+import { menUserPhotoBaseURL, womenUserPhotoBaseURL } from '@/helpers/vairables';
 
 export const getNameFromUserName = (name: string): string => {
   const namesArray: string[] = name.split(' ');
@@ -45,3 +51,5 @@ export const injectPhotoToUser = (user: UserServerResponse & { gender: Gender | 
   }
   return createNewExtendedObject('photoUrl', `${womenUserPhotoBaseURL}${user.id}.jpg`, user);
 };
+
+export const getAllUserIdsUsedInPost = (post: Post): number[] => [ post.userId, ...post.postComments.map((comment: PostComment) => comment.userId) ];
